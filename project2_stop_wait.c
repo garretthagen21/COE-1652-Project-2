@@ -14,7 +14,7 @@
 **********************************************************************/
 
 #define BIDIRECTIONAL 0
-#define RTT_INCREMENT 1000
+#define RTT_INCREMENT 10.0
 
 
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
@@ -25,20 +25,28 @@ void A_output(struct msg message)
 	// Currently in the waiting state so we can send a new packet
 	if (A.wait_above_enabled)
 	{
+
 		// Create the outgoing packet
 		struct pkt new_packet;
 		new_packet.seqnum = not(A.last_pkt_sent.seqnum);
-		new_packet.acknum = 0;
 		memcpy(new_packet.payload, message.data, 20);
 		new_packet.checksum = calculate_checksum(new_packet);
 
-		// Send the packet
-		tolayer3(0, new_packet);
+		//TEMP Debug
+		printf("[A_output() *NEW* Seq: %d] --> Sending new packet to B\n",new_packet.seqnum);
 
 		// Set the state to waiting for ACK and start timer
 		A.wait_above_enabled = 0;
 		A.last_pkt_sent = new_packet;
 		starttimer(0, RTT_INCREMENT);
+
+		// Send the packet
+		tolayer3(0, new_packet);
+
+	}
+	else
+	{
+		printf("[A_output() *FAIL*] --> ACK not yet recieved from B. Ignoring new message\n");
 	}
 }
 
@@ -58,12 +66,17 @@ void A_input(struct pkt packet)
 	if (A.last_pkt_sent.seqnum == packet.acknum &&
 	    packet.checksum == calculate_checksum(packet))
 	{
-		// TEMP Debug
-		printf("[Ack: %d] Recieved ACK from Reciever\n",packet.acknum);
-
+		//TEMP Debug
+		printf("[A_input() *SUCCESS* Ack: %d] --> A recieved ACK from B\n",packet.acknum);
 
 		A.wait_above_enabled = 1;
 		stoptimer(0);
+
+	}
+	else
+	{
+		//TEMP DEBUG
+		printf("[A_input() *FAIL* Ack: %d] --> ACK corrupted/invalid. Ignoring \n",packet.acknum);
 	}
 }
 
@@ -71,17 +84,15 @@ void A_input(struct pkt packet)
 void A_timerinterrupt()
 {
 	// If we are waiting the timer
-	// should not be enabled, but ignore it
+	// should not be enabled, but
+	// use this as a safe guard
 	if(A.wait_above_enabled)
-	{
-		printf("Wait from above enabled during timer interupt\n");
 		return;
-	}
 
-
-	// Else resend the last packet
-	tolayer3(0,A.last_pkt_sent);
+	// Resend last packet and start timer
+	printf("[A_timerintterupt() *FAIL* TimerExpired] --> Resending packet %d from A\n",A.last_pkt_sent.seqnum);
 	starttimer(0,RTT_INCREMENT);
+	tolayer3(0,A.last_pkt_sent);
 
 }
 
@@ -106,26 +117,32 @@ void B_input(struct pkt packet)
 	    && packet.checksum == calculate_checksum(packet))
 	{
 			// TEMP DEBUG
-			printf("[Seq: %d] Recieved Data From Sender\n",packet.seqnum);
+			printf("[B_input() *SUCCESS* Seq: %d] --> Recieved data from sender: ",packet.seqnum);
+			printf(packet.payload);
+			printf("\n");
 
 
 			// Deliver data
 			tolayer5(1,packet.payload);
 
-			// Create and send return ACK packet
+			// Create return ACK packet
 			struct pkt ack_pkt;
 			ack_pkt.acknum = packet.seqnum;
 			ack_pkt.checksum = calculate_checksum(ack_pkt);
+
+			// Update the last ACKed packet and send it
+			B.last_pkt_acked = ack_pkt;
 			tolayer3(1,ack_pkt);
 
-			// Update the last ACKed packet
-			B.last_pkt_acked = ack_pkt;
+
 	}
-	// Resend the previous ack packet
+	// Resend the previous ACK packet as a NACK
 	else
 	{
+		// TEMP DEBUG
+		printf("[B_input() *FAIL* Seq: %d] --> Resending Ack: %d\n",packet.seqnum,B.last_pkt_acked.acknum);
 		tolayer3(1,B.last_pkt_acked);
-		printf("Returning ACK: %d\n",B.last_pkt_acked.acknum);
+
 	}
 
 }
