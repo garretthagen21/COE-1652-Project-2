@@ -11,7 +11,7 @@
 #include <string.h>
 
 #define BIDIRECTIONAL 1
-#define RTT_INCREMENT 15.0
+#define RTT_INCREMENT 30.0
 #define WIN_SIZE 50
 
 

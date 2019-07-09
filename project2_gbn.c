@@ -92,80 +92,87 @@ void B_output(struct msg message){
 /* called from layer 3, when a packet arrives for layer 4 */
 void A_input(struct pkt packet)
 {
-
-	// Packet is ACK/NACK
-	if(packet.seqnum == -1)
+	// Check if the packet is valid
+	if (packet.checksum == calculate_checksum(packet))
 	{
-		// If the ACK matches and the checksum is valid,
-		// set the state to waiting and stop the timer
-		if (packet.checksum == calculate_checksum(packet)
-		    && packet.acknum >= A.base)
+		// Packet is an ACK/NACK
+		if (packet.seqnum == -1)
 		{
-			//TEMP Debug
-			printf("[A_input() Ack: %d] --> Recieved valid ACK from B\n",packet.acknum);
-
-			// Increase the sender base
-			A.base = packet.acknum + 1;
-
-			if(A.base == A.next_seq_num)
+			// Check to make sure the ACK is not a duplicate
+			if (packet.acknum >= A.base)
 			{
-				printf("[A_input() A.base: %d == A.next_seq_num: %d] --> Stopping timer for A\n",A.base,A.next_seq_num);
-				stoptimer(0);
+				printf("[A_input() Ack: %d] --> Recieved valid ACK from B\n", packet.acknum);
+
+				// Increase the sender base
+				A.base = packet.acknum + 1;
+
+				if (A.base == A.next_seq_num)
+				{
+					printf("[A_input() A.base: %d == A.next_seq_num: %d] --> Stopping timer for A\n", A.base,
+					       A.next_seq_num);
+					stoptimer(0);
+				}
+				else
+				{
+					printf("[A_input() A.base: %d != A.next_seq_num: %d] --> Restarting timer for A\n", A.base,
+					       A.next_seq_num);
+					restarttimer(0, RTT_INCREMENT);
+				}
 			}
 			else
 			{
-				printf("[A_input() A.base: %d != A.next_seq_num: %d] --> Restarting timer for A\n",A.base,A.next_seq_num);
-				restarttimer(0,RTT_INCREMENT);
+				printf("[A_input() Ack: %d] --> Recieved duplicate ACK from B. Ignoring \n", packet.acknum);
 			}
-
 		}
+		// Packet contains actual data
 		else
 		{
-			//TEMP DEBUG
-			printf("[A_input() Ack: %d] --> Recieved corrupted/duplicate ACK from B. Ignoring \n",packet.acknum);
-		}
+			// Create the ack_pkt
+			struct pkt ack_pkt;
+			ack_pkt.seqnum = -1;
 
+			// Check to see if the packet arrived in the correct order
+			if (packet.seqnum == A.expected_seq_num)
+			{
+				printf("[A_input() Seq: %d] --> Recieved valid packet from B. Sending Ack: %d\n", packet.seqnum,
+				       A.expected_seq_num);
+
+				// Deliver data
+				tolayer5(0, packet.payload);
+
+				// Populate the return ack packet
+				ack_pkt.acknum = A.expected_seq_num;
+				ack_pkt.checksum = calculate_checksum(ack_pkt);
+
+				// Send the ack pkt
+				tolayer3(0, ack_pkt);
+
+				// Update the return pkt and expected sequence num;
+				A.expected_seq_num++;
+			}
+			else
+			{
+				printf("[A_input() Seq: %d] --> Recieved unordered packet from B. Resending Ack: %d\n", packet.seqnum,
+				       A.expected_seq_num - 1);
+
+				// Populate ack for the last recieved packet
+				ack_pkt.acknum = A.expected_seq_num - 1;
+				ack_pkt.checksum = calculate_checksum(ack_pkt);
+				tolayer3(0, ack_pkt);
+			}
+		}
 	}
-	// Packet contains data
 	else
 	{
-		// Create the ack_pkt
+		printf("[A_input() Seq: %d] --> Recieved corrupted packet from B. Resending Ack: %d\n", packet.seqnum,A.expected_seq_num - 1);
+
+		// Populate ack for the last recieved packet. TODO: Fix repeated code
 		struct pkt ack_pkt;
 		ack_pkt.seqnum = -1;
+		ack_pkt.acknum = A.expected_seq_num - 1;
+		ack_pkt.checksum = calculate_checksum(ack_pkt);
+		tolayer3(0,ack_pkt);
 
-		// If the seq matches the opposite of the prev ACK
-		// and the checksum is valid forward the packet to layer 5,
-		// and return the ACK
-		if (packet.seqnum == A.expected_seq_num
-		    && packet.checksum == calculate_checksum(packet))
-		{
-			// TEMP DEBUG
-			printf("[A_input() Seq: %d] --> Recieved valid packet from B. Sending Ack: %d\n", packet.seqnum,A.expected_seq_num);
-
-			// Deliver data
-			tolayer5(0, packet.payload);
-
-			// Populate the return ack packet
-			ack_pkt.acknum = A.expected_seq_num;
-			ack_pkt.checksum = calculate_checksum(ack_pkt);
-
-			// Send the ack pkt
-			tolayer3(0,ack_pkt);
-
-			// Update the return pkt and expected sequence num;
-			A.expected_seq_num++;
-
-
-		}
-		else
-		{
-			printf("[A_input() Seq: %d] --> Recieved unordered/corrupted packet from B. Resending Ack: %d\n", packet.seqnum,A.expected_seq_num - 1);
-
-			// Populate ack for the last recieved packet
-			ack_pkt.acknum = A.expected_seq_num - 1;
-			ack_pkt.checksum = calculate_checksum(ack_pkt);
-			tolayer3(0,ack_pkt);
-		}
 	}
 }
 
@@ -208,81 +215,94 @@ void A_init()
 /* called from layer 3, when a packet arrives for layer 4 at B*/
 void B_input(struct pkt packet)
 {
-	// Packet is an ACK/NACK
-	if(packet.seqnum == -1)
+	// Check if the packet is valid
+	if (packet.checksum == calculate_checksum(packet))
 	{
-		// If the ACK matches and the checksum is valid,
-		// set the state to waiting and stop the timer
-		if (packet.checksum == calculate_checksum(packet)
-		    && packet.acknum >= B.base)
+		// Packet is an ACK/NACK
+		if (packet.seqnum == -1)
 		{
-			//TEMP Debug
-			printf("[B_input() Ack: %d] --> Recieved valid ACK from A\n",packet.acknum);
-
-			// Increase the sender base
-			B.base = packet.acknum + 1;
-
-			if(B.base == B.next_seq_num)
+			// Check to make sure the ACK is not a duplicate
+			if (packet.acknum >= B.base)
 			{
-				printf("[B_input() B.base: %d == B.next_seq_num: %d] --> Stopping timer for B\n",B.base,B.next_seq_num);
-				stoptimer(1);
+				printf("[B_input() Ack: %d] --> Recieved valid ACK from A\n", packet.acknum);
+
+				// Increase the sender base
+				B.base = packet.acknum + 1;
+
+				if (B.base == B.next_seq_num)
+				{
+					printf("[B_input() B.base: %d == B.next_seq_num: %d] --> Stopping timer for B\n", B.base,
+					       B.next_seq_num);
+					stoptimer(1);
+				}
+				else
+				{
+					printf("[B_input() B.base: %d != B.next_seq_num: %d] --> Restarting timer for B\n", B.base,
+					       B.next_seq_num);
+					restarttimer(1, RTT_INCREMENT);
+				}
 			}
 			else
 			{
-				printf("[B_input() B.base: %d != B.next_seq_num: %d] --> Restarting timer for B\n",B.base,B.next_seq_num);
-				restarttimer(1,RTT_INCREMENT);
+				printf("[B_input() Ack: %d] --> Recieved duplicate ACK from A. Ignoring \n", packet.acknum);
 			}
-
 		}
+		// Packet contains actual data
 		else
 		{
-			//TEMP DEBUG
-			printf("[B_input() Ack: %d] --> Recieved corrupted/duplicate ACK from A. Ignoring \n",packet.acknum);
-		}
+			// Create the ack_pkt
+			struct pkt ack_pkt;
+			ack_pkt.seqnum = -1;
 
+			// Check to see if the packet arrived in the correct order
+			if (packet.seqnum == B.expected_seq_num)
+			{
+				printf("[B_input() Seq: %d] --> Recieved valid packet from A. Sending Ack: %d\n", packet.seqnum,
+				       B.expected_seq_num);
+
+				// Deliver data
+				tolayer5(1, packet.payload);
+
+				// Populate the return ack packet
+				ack_pkt.acknum = B.expected_seq_num;
+				ack_pkt.checksum = calculate_checksum(ack_pkt);
+
+				// Send the ack pkt
+				tolayer3(1, ack_pkt);
+
+				// Update the return pkt and expected sequence num;
+				B.expected_seq_num++;
+			}
+			else
+			{
+				printf("[B_input() Seq: %d] --> Recieved unordered packet from A. Resending Ack: %d\n", packet.seqnum,
+				       B.expected_seq_num - 1);
+
+				// Populate ack for the last recieved packet
+				ack_pkt.acknum = B.expected_seq_num - 1;
+				ack_pkt.checksum = calculate_checksum(ack_pkt);
+				tolayer3(1, ack_pkt);
+			}
+		}
 	}
-	// Packet contains data
 	else
 	{
-		// Create the ack_pkt
+		printf("[B_input() Seq: %d] --> Recieved corrupted packet from A. Resending Ack: %d\n", packet.seqnum,B.expected_seq_num - 1);
+
+		// Populate ack for the last recieved packet. TODO: Fix repeated code
 		struct pkt ack_pkt;
 		ack_pkt.seqnum = -1;
-
-		// If the seq matches the opposite of the prev ACK
-		// and the checksum is valid forward the packet to layer 5,
-		// and return the ACK
-		if (packet.seqnum == B.expected_seq_num
-		    && packet.checksum == calculate_checksum(packet))
-		{
-			// TEMP DEBUG
-			printf("[B_input() Seq: %d] --> Recieved valid packet from A. Sending Ack: %d\n", packet.seqnum,B.expected_seq_num);
-
-			// Deliver data
-			tolayer5(1, packet.payload);
-
-			// Populate the return ack packet
-			ack_pkt.acknum = B.expected_seq_num;
-			ack_pkt.checksum = calculate_checksum(ack_pkt);
-
-			// Send the ack pkt
-			tolayer3(1,ack_pkt);
-
-			// Update the return pkt and expected sequence num;
-			B.expected_seq_num++;
-
-
-		}
-		else
-		{
-			printf("[B_input() Seq: %d] --> Recieved unordered/corrupted packet from A. Resending Ack: %d\n", packet.seqnum,B.expected_seq_num - 1);
-
-			// Populate ack for the last recieved packet
-			ack_pkt.acknum = B.expected_seq_num - 1;
-			ack_pkt.checksum = calculate_checksum(ack_pkt);
-			tolayer3(1,ack_pkt);
-		}
-
+		ack_pkt.acknum = B.expected_seq_num - 1;
+		ack_pkt.checksum = calculate_checksum(ack_pkt);
+		tolayer3(1,ack_pkt);
+	
 	}
+	
+	
+	
+	
+	
+	
 
 
 
