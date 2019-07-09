@@ -1,7 +1,7 @@
-#include "project2_rdt.h"
+#include "project2_stop_wait.h"
 
 /* ******************************************************************
- ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
+ ALTERNATING BIT NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
 
    This code should be used for Project 2, unidirectional and bidirectional
    data transfer protocols.  Network properties:
@@ -13,8 +13,6 @@
      (although some can be lost).
 **********************************************************************/
 
-#define BIDIRECTIONAL 0
-#define RTT_INCREMENT 10.0
 
 
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/

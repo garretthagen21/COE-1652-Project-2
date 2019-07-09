@@ -1,13 +1,18 @@
 //
-// Created by Garrett Hagen on 2019-07-02.
+// Created by Garrett Hagen on 2019-07-08.
 //
 
-#ifndef COE_1652_PROJECT_2_PROJECT2_RDT_H
-#define COE_1652_PROJECT_2_PROJECT2_RDT_H
+#ifndef COE_1652_PROJECT_2_PROJECT2_GBN_H
+#define COE_1652_PROJECT_2_PROJECT2_GBN_H
+
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define BIDIRECTIONAL 1
+#define RTT_INCREMENT 15.0
+#define WIN_SIZE 50
 
 
 /* a "msg" is the data unit passed from layer 5 (teachers code) to layer  */
@@ -28,18 +33,14 @@ struct pkt {
 };
 
 /* Stores the sender state and packet */
-struct sender
+struct side
 {
-	int wait_above_enabled;
-	struct pkt last_pkt_sent;
-} A;
+	int base;
+	int next_seq_num;
+	struct pkt pkt_window[WIN_SIZE];
+	int expected_seq_num;
 
-
-/* Stores the reciever state and packet */
-struct reciever
-{
-	struct pkt last_pkt_acked;
-} B;
+} A,B;
 
 
 /* Function headers */
@@ -47,12 +48,7 @@ void tolayer5(int AorB, char datasent[20]);
 void tolayer3(int AorB, struct pkt packet);
 void starttimer(int AorB, float increment);
 void stoptimer(int AorB);
-int  not(int AorB);
+void restarttimer(int AorB,float increment);
 int  calculate_checksum(struct pkt packet);
 
-
-
-
-
-
-#endif //COE_1652_PROJECT_2_PROJECT2_RDT_H
+#endif //COE_1652_PROJECT_2_PROJECT2_GBN_H

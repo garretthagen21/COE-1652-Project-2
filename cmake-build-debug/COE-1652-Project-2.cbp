@@ -37,8 +37,8 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="stop_wait">
-				<Option output="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/stop_wait" prefix_auto="0" extension_auto="0"/>
+			<Target title="gbn">
+				<Option output="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/gbn" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -51,14 +51,14 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 stop_wait"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 gbn"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="stop_wait/fast">
-				<Option output="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/stop_wait" prefix_auto="0" extension_auto="0"/>
+			<Target title="gbn/fast">
+				<Option output="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/gbn" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -71,15 +71,18 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 stop_wait/fast"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 gbn/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/GarrettHagen\ 1/Development/C++/COE-1652/COE-1652-Project-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_stop_wait.c">
-			<Option target="stop_wait"/>
+		<Unit filename="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_gbn.c">
+			<Option target="gbn"/>
+		</Unit>
+		<Unit filename="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_gbn.h">
+			<Option target="gbn"/>
 		</Unit>
 		<Unit filename="/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>

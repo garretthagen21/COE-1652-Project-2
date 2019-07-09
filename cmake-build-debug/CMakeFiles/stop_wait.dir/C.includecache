@@ -6,15 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_rdt.h
+/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_stop_wait.c
+project2_stop_wait.h
+/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_stop_wait.h
+
+/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_stop_wait.h
 stdio.h
 -
 stdlib.h
 -
 string.h
 -
-
-/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_stop_wait.c
-project2_rdt.h
-/Users/GarrettHagen 1/Development/C++/COE-1652/COE-1652-Project-2/project2_rdt.h
 

@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named stop_wait
+# Target rules for targets named gbn
 
 # Build rule for target.
-stop_wait: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stop_wait
-.PHONY : stop_wait
+gbn: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gbn
+.PHONY : gbn
 
 # fast build rule for target.
-stop_wait/fast:
-	$(MAKE) -f CMakeFiles/stop_wait.dir/build.make CMakeFiles/stop_wait.dir/build
-.PHONY : stop_wait/fast
+gbn/fast:
+	$(MAKE) -f CMakeFiles/gbn.dir/build.make CMakeFiles/gbn.dir/build
+.PHONY : gbn/fast
 
-project2_stop_wait.o: project2_stop_wait.c.o
+project2_gbn.o: project2_gbn.c.o
 
-.PHONY : project2_stop_wait.o
+.PHONY : project2_gbn.o
 
 # target to build an object file
-project2_stop_wait.c.o:
-	$(MAKE) -f CMakeFiles/stop_wait.dir/build.make CMakeFiles/stop_wait.dir/project2_stop_wait.c.o
-.PHONY : project2_stop_wait.c.o
+project2_gbn.c.o:
+	$(MAKE) -f CMakeFiles/gbn.dir/build.make CMakeFiles/gbn.dir/project2_gbn.c.o
+.PHONY : project2_gbn.c.o
 
-project2_stop_wait.i: project2_stop_wait.c.i
+project2_gbn.i: project2_gbn.c.i
 
-.PHONY : project2_stop_wait.i
+.PHONY : project2_gbn.i
 
 # target to preprocess a source file
-project2_stop_wait.c.i:
-	$(MAKE) -f CMakeFiles/stop_wait.dir/build.make CMakeFiles/stop_wait.dir/project2_stop_wait.c.i
-.PHONY : project2_stop_wait.c.i
+project2_gbn.c.i:
+	$(MAKE) -f CMakeFiles/gbn.dir/build.make CMakeFiles/gbn.dir/project2_gbn.c.i
+.PHONY : project2_gbn.c.i
 
-project2_stop_wait.s: project2_stop_wait.c.s
+project2_gbn.s: project2_gbn.c.s
 
-.PHONY : project2_stop_wait.s
+.PHONY : project2_gbn.s
 
 # target to generate assembly for a file
-project2_stop_wait.c.s:
-	$(MAKE) -f CMakeFiles/stop_wait.dir/build.make CMakeFiles/stop_wait.dir/project2_stop_wait.c.s
-.PHONY : project2_stop_wait.c.s
+project2_gbn.c.s:
+	$(MAKE) -f CMakeFiles/gbn.dir/build.make CMakeFiles/gbn.dir/project2_gbn.c.s
+.PHONY : project2_gbn.c.s
 
 # Help Target
 help:
@@ -158,10 +158,10 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... stop_wait"
-	@echo "... project2_stop_wait.o"
-	@echo "... project2_stop_wait.i"
-	@echo "... project2_stop_wait.s"
+	@echo "... gbn"
+	@echo "... project2_gbn.o"
+	@echo "... project2_gbn.i"
+	@echo "... project2_gbn.s"
 .PHONY : help
 
 
