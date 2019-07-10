@@ -10,10 +10,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BIDIRECTIONAL 1
+#define BIDIRECTIONAL 0
 #define RTT_INCREMENT 30.0
 #define WIN_SIZE 50
 
+/* convenience counter for total successful_acks */
+int successful_acks = 0;
+
+/* buffer to hold debugging info */
+char debug_str[150];
 
 /* a "msg" is the data unit passed from layer 5 (teachers code) to layer  */
 /* 4 (students' code).  It contains the data (characters) to be delivered */
@@ -33,7 +38,7 @@ struct pkt {
 };
 
 /* Stores the sender state and packet */
-struct side
+struct host
 {
 	int base;
 	int next_seq_num;

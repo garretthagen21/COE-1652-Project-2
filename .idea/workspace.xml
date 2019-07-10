@@ -13,19 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f1ed0e2-de43-45b2-8b8a-33debde1e303" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stop_wait.dir/project2_stop_wait.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/stop_wait.dir/project2_stop_wait.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/COE-1652-Project-2.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/COE-1652-Project-2.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/stop_wait" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/stop_wait" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project2_gbn.c" beforeDir="false" afterPath="$PROJECT_DIR$/project2_gbn.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project2_gbn.h" beforeDir="false" afterPath="$PROJECT_DIR$/project2_gbn.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project2_stop_wait.c" beforeDir="false" afterPath="$PROJECT_DIR$/project2_stop_wait.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project2_stop_wait.h" beforeDir="false" afterPath="$PROJECT_DIR$/project2_stop_wait.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -38,33 +27,23 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/project2_gbn.c">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="-3847">
-                    <caret line="246" column="32" selection-start-line="246" selection-start-column="32" selection-end-line="246" selection-end-column="32" />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/project2_gbn.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="284" column="31" lean-forward="true" selection-start-line="284" selection-start-column="31" selection-end-line="284" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project2_stop_wait.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
+            <state relative-caret-position="228">
+              <caret line="332" column="84" selection-start-line="332" selection-start-column="4" selection-end-line="332" selection-end-column="84" />
             </state>
           </provider>
         </entry>
@@ -81,8 +60,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project2_gbn.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="2" selection-start-column="2" selection-end-column="2" />
+            <state relative-caret-position="16">
+              <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
               <folding>
                 <element signature="e#136#154#0" expanded="true" />
               </folding>
@@ -93,8 +72,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project2_stop_wait.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+            <state relative-caret-position="124">
+              <caret line="14" selection-start-line="14" selection-end-line="18" selection-end-column="20" />
               <folding>
                 <element signature="e#147#165#0" expanded="true" />
               </folding>
@@ -115,10 +94,13 @@
     <findStrings>
       <find>resettimer</find>
       <find>A</find>
-      <find>A.</find>
       <find>B</find>
       <find>char debug_str[</find>
       <find>//char debug_str[200];</find>
+      <find>char debug_str[200];</find>
+      <find>% W</find>
+      <find>A.</find>
+      <find>B.</find>
     </findStrings>
     <replaceStrings>
       <replace>restarttimer</replace>
@@ -133,12 +115,12 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/project2_rdt.h" />
-        <option value="$PROJECT_DIR$/project2_gbn.h" />
-        <option value="$PROJECT_DIR$/project2_gbn.c" />
         <option value="$PROJECT_DIR$/stop_wait_temp.c" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/project2_stop_wait.h" />
         <option value="$PROJECT_DIR$/project2_stop_wait.c" />
+        <option value="$PROJECT_DIR$/project2_stop_wait.h" />
+        <option value="$PROJECT_DIR$/project2_gbn.h" />
+        <option value="$PROJECT_DIR$/project2_gbn.c" />
       </list>
     </option>
   </component>
@@ -146,7 +128,7 @@
     <option name="x" value="82" />
     <option name="y" value="23" />
     <option name="width" value="1585" />
-    <option name="height" value="1010" />
+    <option name="height" value="1009" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -189,7 +171,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="CMake Application.stop_wait">
+  <component name="RunManager" selected="CMake Application.gbn">
     <configuration name="gbn" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="COE-1652-Project-2" TARGET_NAME="gbn" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="COE-1652-Project-2" RUN_TARGET_NAME="gbn">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -217,28 +199,29 @@
       <updated>1562088767263</updated>
       <workItem from="1562088769910" duration="16793000" />
       <workItem from="1562606130320" duration="1849000" />
-      <workItem from="1562636235313" duration="23861000" />
+      <workItem from="1562636235313" duration="28192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42503000" />
+    <option name="totallyTimeSpent" value="46834000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="82" y="23" width="1585" height="1010" extended-state="0" />
+    <frame x="82" y="23" width="1585" height="1009" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.18924174" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1743357" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.1819172" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.06870229" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.89542484" />
+      <window_info anchor="bottom" id="Messages" order="8" weight="0.8953108" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32897604" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" />
@@ -276,13 +259,6 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/project2_rdt.h" />
-    <entry file="file://$PROJECT_DIR$/project2_gbn.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3847">
-          <caret line="246" column="32" selection-start-line="246" selection-start-column="32" selection-end-line="246" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/stop_wait_temp.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -297,30 +273,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project2_gbn.h">
+    <entry file="file://$PROJECT_DIR$/project2_stop_wait.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="2" selection-start-column="2" selection-end-column="2" />
-          <folding>
-            <element signature="e#136#154#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="228">
+          <caret line="332" column="84" selection-start-line="332" selection-start-column="4" selection-end-line="332" selection-end-column="84" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project2_stop_wait.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+        <state relative-caret-position="124">
+          <caret line="14" selection-start-line="14" selection-end-line="18" selection-end-column="20" />
           <folding>
             <element signature="e#147#165#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project2_stop_wait.c">
+    <entry file="file://$PROJECT_DIR$/project2_gbn.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
+        <state relative-caret-position="16">
+          <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+          <folding>
+            <element signature="e#136#154#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project2_gbn.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="284" column="31" lean-forward="true" selection-start-line="284" selection-start-column="31" selection-end-line="284" selection-end-column="31" />
         </state>
       </provider>
     </entry>

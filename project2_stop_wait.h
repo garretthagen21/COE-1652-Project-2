@@ -12,6 +12,7 @@
 #define BIDIRECTIONAL 0
 #define RTT_INCREMENT 30.0
 
+/* convenience counter for total successful_acks */
 int successful_acks = 0;
 
 /* buffer to hold debugging info */

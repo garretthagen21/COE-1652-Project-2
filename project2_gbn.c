@@ -33,12 +33,11 @@ void A_output(struct msg message)
 		// Insert it into the sending window and send it
 		A.pkt_window[A.next_seq_num % WIN_SIZE] = new_packet;
 
-		// Send the packet
-		tolayer3(0,A.pkt_window[A.next_seq_num % WIN_SIZE]);
-
-		char debug_str[200];
 		sprintf(debug_str,"A_output() Seq: %d] --> Sending new packet to B\n",new_packet.seqnum);
 		debug_print(debug_str);
+
+		// Send the packet
+		tolayer3(0,A.pkt_window[A.next_seq_num % WIN_SIZE]);
 
 		// If the base equals the seq_num, start the timer
 		if(A.base == A.next_seq_num)
@@ -69,12 +68,12 @@ void B_output(struct msg message){
 		// Insert it into the sending window and send it
 		B.pkt_window[B.next_seq_num % WIN_SIZE] = new_packet;
 
+		sprintf(debug_str,"B_output() Seq: %d] --> Sending new packet to A\n",new_packet.seqnum);
+		debug_print(debug_str);
+
 		// Send the packet
 		tolayer3(1,B.pkt_window[B.next_seq_num % WIN_SIZE]);
 
-		char debug_str[200];
-		sprintf(debug_str,"B_output() Seq: %d] --> Sending new packet to A\n",new_packet.seqnum);
-		debug_print(debug_str);
 
 		// If the base equals the seq_num, start the timer
 		if(B.base == B.next_seq_num)
@@ -103,7 +102,7 @@ void A_input(struct pkt packet)
 			// Check to make sure the ACK is not a duplicate
 			if (packet.acknum >= A.base)
 			{
-				char debug_str[200];
+				
 				sprintf(debug_str,"A_input() Ack: %d] --> Recieved valid ACK from B\n", packet.acknum);
 				debug_print(debug_str);
 
@@ -112,7 +111,7 @@ void A_input(struct pkt packet)
 
 				if (A.base == A.next_seq_num)
 				{
-					char debug_str[200];
+					
 					sprintf(debug_str,"A_input() A.base: %d == A.next_seq_num: %d] --> Stopping timer for A\n", A.base,
 					       A.next_seq_num);
 					debug_print(debug_str);
@@ -121,7 +120,7 @@ void A_input(struct pkt packet)
 				}
 				else
 				{
-					char debug_str[200];
+					
 					sprintf(debug_str,"A_input() A.base: %d != A.next_seq_num: %d] --> Restarting timer for A\n", A.base,
 					       A.next_seq_num);
 					debug_print(debug_str);
@@ -131,7 +130,7 @@ void A_input(struct pkt packet)
 			}
 			else
 			{
-				char debug_str[200];
+				
 				sprintf(debug_str,"A_input() Ack: %d] --> Recieved duplicate ACK from B. Ignoring \n", packet.acknum);
 				debug_print(debug_str);
 			}
@@ -146,7 +145,7 @@ void A_input(struct pkt packet)
 			// Check to see if the packet arrived in the correct order
 			if (packet.seqnum == A.expected_seq_num)
 			{
-				char debug_str[200];
+				
 				sprintf(debug_str,"A_input() Seq: %d] --> Recieved valid packet from B. Sending Ack: %d\n", packet.seqnum,
 				       A.expected_seq_num);
 				debug_print(debug_str);
@@ -163,10 +162,13 @@ void A_input(struct pkt packet)
 
 				// Update the return pkt and expected sequence num;
 				A.expected_seq_num++;
+
+				// Update successful acks
+				successful_acks++;
 			}
 			else
 			{
-				char debug_str[200];
+				
 				sprintf(debug_str,"A_input() Seq: %d] --> Recieved unordered packet from B. Resending Ack: %d\n", packet.seqnum,
 				       A.expected_seq_num - 1);
 				debug_print(debug_str);
@@ -180,11 +182,11 @@ void A_input(struct pkt packet)
 	}
 	else
 	{
-		char debug_str[200];
+		
 		sprintf(debug_str,"A_input() Seq: %d] --> Recieved corrupted packet from B. Resending Ack: %d\n", packet.seqnum,A.expected_seq_num - 1);
 		debug_print(debug_str);
 
-		// Populate ack for the last recieved packet. TODO: Fix repeated code
+		// Populate ack for the last recieved packet.
 		struct pkt ack_pkt;
 		ack_pkt.seqnum = -1;
 		ack_pkt.acknum = A.expected_seq_num - 1;
@@ -198,19 +200,20 @@ void A_input(struct pkt packet)
 void A_timerinterrupt()
 {
 
-	// Start the timer again
-	starttimer(0,RTT_INCREMENT);
-
 	// Resend the unacked packet range
 	int i;
 	for(i = A.base; i < A.next_seq_num; i++)
 	{
-		char debug_str[100];
+
 		sprintf(debug_str,"A_timerintterupt()]\t--> Resending packet %d to B\n",A.pkt_window[i % WIN_SIZE].seqnum);
 		debug_print(debug_str);
 
 		tolayer3(0,A.pkt_window[i % WIN_SIZE]);
+
 	}
+
+	// Start the timer again
+	starttimer(0,RTT_INCREMENT);
 
 
 
@@ -244,7 +247,7 @@ void B_input(struct pkt packet)
 			// Check to make sure the ACK is not a duplicate
 			if (packet.acknum >= B.base)
 			{
-				char debug_str[200];
+				
 				sprintf(debug_str,"[B_input() Ack: %d] --> Recieved valid ACK from A\n", packet.acknum);
 				debug_print(debug_str);
 
@@ -253,7 +256,7 @@ void B_input(struct pkt packet)
 
 				if (B.base == B.next_seq_num)
 				{
-					char debug_str[200];
+					
 					sprintf(debug_str,"[B_input() B.base: %d == B.next_seq_num: %d] --> Stopping timer for B\n", B.base,
 					       B.next_seq_num);
 					debug_print(debug_str);
@@ -262,7 +265,7 @@ void B_input(struct pkt packet)
 				}
 				else
 				{
-					char debug_str[200];
+					
 					sprintf(debug_str,"[B_input() B.base: %d != B.next_seq_num: %d] --> Restarting timer for B\n", B.base,
 					       B.next_seq_num);
 					debug_print(debug_str);
@@ -285,7 +288,7 @@ void B_input(struct pkt packet)
 			// Check to see if the packet arrived in the correct order
 			if (packet.seqnum == B.expected_seq_num)
 			{
-				char debug_str[200];
+				
 				sprintf(debug_str,"B_input() Seq: %d] --> Recieved valid packet from A. Sending Ack: %d\n", packet.seqnum,
 				        B.expected_seq_num);
 				debug_print(debug_str);
@@ -302,10 +305,13 @@ void B_input(struct pkt packet)
 
 				// Update the return pkt and expected sequence num;
 				B.expected_seq_num++;
+
+				// Update successful acks
+				successful_acks++;
 			}
 			else
 			{
-				char debug_str[200];
+				
 				sprintf(debug_str,"B_input() Seq: %d] --> Recieved unordered packet from A. Resending Ack: %d\n", packet.seqnum,
 				        B.expected_seq_num - 1);
 				debug_print(debug_str);
@@ -319,11 +325,11 @@ void B_input(struct pkt packet)
 	}
 	else
 	{
-		char debug_str[200];
+		
 		sprintf(debug_str,"B_input() Seq: %d] --> Recieved corrupted packet from A. Resending Ack: %d\n", packet.seqnum,B.expected_seq_num - 1);
 		debug_print(debug_str);
 
-		// Populate ack for the last recieved packet. TODO: Fix repeated code
+		// Populate ack for the last recieved packet.
 		struct pkt ack_pkt;
 		ack_pkt.seqnum = -1;
 		ack_pkt.acknum = B.expected_seq_num - 1;
@@ -338,19 +344,20 @@ void B_input(struct pkt packet)
 /* NOTE: Not in use. Called when B's timer goes off */
 void B_timerinterrupt()
 {
-	// Start the timer again
-	starttimer(1,RTT_INCREMENT);
-
 	// Resend the unacked packet range
 	int i;
 	for(i = B.base; i < B.next_seq_num; i++)
 	{
-		char debug_str[100];
+
 		sprintf(debug_str,"B_timerintterupt()]\t--> Resending packet %d to A\n",B.pkt_window[i % WIN_SIZE].seqnum);
 		debug_print(debug_str);
 
 		tolayer3(1,B.pkt_window[i % WIN_SIZE]);
 	}
+
+	// Start the timer again
+	starttimer(1,RTT_INCREMENT);
+
 
 }
 
@@ -528,6 +535,7 @@ int main()
 
 	terminate:
 	printf(" Simulator terminated at time %f\n after sending %d msgs from layer5\n", time, nsim);
+	printf(" %d successful ACKs were transferred between the hosts\n",successful_acks);
 	return 0;
 }
 
@@ -812,6 +820,6 @@ void tolayer5(int AorB, char datasent[20])
 
 
 void debug_print(const char* message) {
-	printf("[%.2f  ",time);
-	printf(message);
+	printf("[%f  ",time);
+	printf("%s",message);
 }
