@@ -10,8 +10,12 @@
 #include <string.h>
 
 #define BIDIRECTIONAL 0
-#define RTT_INCREMENT 15.0
+#define RTT_INCREMENT 30.0
 
+int successful_acks = 0;
+
+/* buffer to hold debugging info */
+char debug_str[150];
 
 /* a "msg" is the data unit passed from layer 5 (teachers code) to layer  */
 /* 4 (students' code).  It contains the data (characters) to be delivered */
@@ -52,5 +56,6 @@ void starttimer(int AorB, float increment);
 void stoptimer(int AorB);
 int  not(int AorB);
 int  calculate_checksum(struct pkt packet);
+void debug_print(const char* message);
 
 #endif //COE_1652_PROJECT_2_PROJECT2_STOP_WAIT_H

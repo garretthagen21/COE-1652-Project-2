@@ -50,5 +50,6 @@ void starttimer(int AorB, float increment);
 void stoptimer(int AorB);
 void restarttimer(int AorB,float increment);
 int  calculate_checksum(struct pkt packet);
+void debug_print(const char* message);
 
 #endif //COE_1652_PROJECT_2_PROJECT2_GBN_H

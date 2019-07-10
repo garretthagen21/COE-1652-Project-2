@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named stop_wait
+
+# Build rule for target.
+stop_wait: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stop_wait
+.PHONY : stop_wait
+
+# fast build rule for target.
+stop_wait/fast:
+	$(MAKE) -f CMakeFiles/stop_wait.dir/build.make CMakeFiles/stop_wait.dir/build
+.PHONY : stop_wait/fast
+
+#=============================================================================
 # Target rules for targets named gbn
 
 # Build rule for target.
@@ -150,6 +163,33 @@ project2_gbn.c.s:
 	$(MAKE) -f CMakeFiles/gbn.dir/build.make CMakeFiles/gbn.dir/project2_gbn.c.s
 .PHONY : project2_gbn.c.s
 
+project2_stop_wait.o: project2_stop_wait.c.o
+
+.PHONY : project2_stop_wait.o
+
+# target to build an object file
+project2_stop_wait.c.o:
+	$(MAKE) -f CMakeFiles/stop_wait.dir/build.make CMakeFiles/stop_wait.dir/project2_stop_wait.c.o
+.PHONY : project2_stop_wait.c.o
+
+project2_stop_wait.i: project2_stop_wait.c.i
+
+.PHONY : project2_stop_wait.i
+
+# target to preprocess a source file
+project2_stop_wait.c.i:
+	$(MAKE) -f CMakeFiles/stop_wait.dir/build.make CMakeFiles/stop_wait.dir/project2_stop_wait.c.i
+.PHONY : project2_stop_wait.c.i
+
+project2_stop_wait.s: project2_stop_wait.c.s
+
+.PHONY : project2_stop_wait.s
+
+# target to generate assembly for a file
+project2_stop_wait.c.s:
+	$(MAKE) -f CMakeFiles/stop_wait.dir/build.make CMakeFiles/stop_wait.dir/project2_stop_wait.c.s
+.PHONY : project2_stop_wait.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -158,10 +198,14 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... stop_wait"
 	@echo "... gbn"
 	@echo "... project2_gbn.o"
 	@echo "... project2_gbn.i"
 	@echo "... project2_gbn.s"
+	@echo "... project2_stop_wait.o"
+	@echo "... project2_stop_wait.i"
+	@echo "... project2_stop_wait.s"
 .PHONY : help
 
 

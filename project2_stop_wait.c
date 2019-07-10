@@ -30,8 +30,8 @@ void A_output(struct msg message)
 		memcpy(new_packet.payload, message.data, 20);
 		new_packet.checksum = calculate_checksum(new_packet);
 
-		//TEMP Debug
-		printf("[A_output() *NEW* Seq: %d] --> Sending new packet to B\n",new_packet.seqnum);
+		sprintf(debug_str,"A_output() Seq: %d] --> Sending new packet to B\n",new_packet.seqnum);
+		debug_print(debug_str);
 
 		// Set the state to waiting for ACK and start timer
 		A.wait_above_enabled = 0;
@@ -44,7 +44,7 @@ void A_output(struct msg message)
 	}
 	else
 	{
-		printf("[A_output() *FAIL*] --> ACK not yet recieved from B. Ignoring new message\n");
+		debug_print("A_output()] --> ACK not yet recieved from B. Ignoring new message\n");
 	}
 }
 
@@ -61,20 +61,24 @@ void A_input(struct pkt packet)
 
 	// If the ACK matches and the checksum is valid,
 	// set the state to waiting and stop the timer
-	if (A.last_pkt_sent.seqnum == packet.acknum &&
-	    packet.checksum == calculate_checksum(packet))
+	if (packet.checksum == calculate_checksum(packet) &&
+		A.last_pkt_sent.seqnum == packet.acknum)
 	{
-		//TEMP Debug
-		printf("[A_input() *SUCCESS* Ack: %d] --> A recieved ACK from B\n",packet.acknum);
+
+		sprintf(debug_str,"A_input() Ack: %d] --> Recieved valid ACK from B\n",packet.acknum);
+		debug_print(debug_str);
 
 		A.wait_above_enabled = 1;
 		stoptimer(0);
 
+		successful_acks++;
+
 	}
 	else
 	{
-		//TEMP DEBUG
-		printf("[A_input() *FAIL* Ack: %d] --> ACK corrupted/invalid. Ignoring \n",packet.acknum);
+		
+		sprintf(debug_str,"A_input() Ack: %d] --> ACK from B is corrupted/invalid. Ignoring \n",packet.acknum);
+		debug_print(debug_str);
 	}
 }
 
@@ -87,10 +91,14 @@ void A_timerinterrupt()
 	if(A.wait_above_enabled)
 		return;
 
+	sprintf(debug_str,"A_timerintterupt()] --> Resending packet %d from A\n",A.last_pkt_sent.seqnum);
+	debug_print(debug_str);
+
 	// Resend last packet and start timer
-	printf("[A_timerintterupt() *FAIL* TimerExpired] --> Resending packet %d from A\n",A.last_pkt_sent.seqnum);
 	starttimer(0,RTT_INCREMENT);
 	tolayer3(0,A.last_pkt_sent);
+
+
 
 }
 
@@ -111,17 +119,15 @@ void B_input(struct pkt packet)
 	// If the seq matches the opposite of the prev ACK
 	// and the checksum is valid forward the packet to layer 5,
 	// and return the ACK
-	if (packet.seqnum == not(B.last_pkt_acked.acknum)
-	    && packet.checksum == calculate_checksum(packet))
+	if (packet.checksum == calculate_checksum(packet)
+		&& packet.seqnum == not(B.last_pkt_acked.acknum))
 	{
-			// TEMP DEBUG
-			printf("[B_input() *SUCCESS* Seq: %d] --> Recieved data from sender: ",packet.seqnum);
-			printf(packet.payload);
-			printf("\n");
-
 
 			// Deliver data
 			tolayer5(1,packet.payload);
+
+			sprintf(debug_str,"B_input() Seq: %d] --> B received valid packet from A. Sending Ack: %d\n",packet.seqnum,packet.seqnum);
+			debug_print(debug_str);
 
 			// Create return ACK packet
 			struct pkt ack_pkt;
@@ -133,12 +139,15 @@ void B_input(struct pkt packet)
 			tolayer3(1,ack_pkt);
 
 
+
+
 	}
 	// Resend the previous ACK packet as a NACK
 	else
 	{
-		// TEMP DEBUG
-		printf("[B_input() *FAIL* Seq: %d] --> Resending Ack: %d\n",packet.seqnum,B.last_pkt_acked.acknum);
+		sprintf(debug_str,"B_input() Seq: %d] --> B received corrupted/unordered packet from A. Resending Ack: %d\n",packet.seqnum,B.last_pkt_acked.acknum);
+		debug_print(debug_str);
+
 		tolayer3(1,B.last_pkt_acked);
 
 	}
@@ -163,7 +172,7 @@ int calculate_checksum(struct pkt packet)
 	int check_sum = packet.acknum + packet.seqnum;
 
 	for (size_t i = 0; i < 20; i++)
-		check_sum += (int) packet.payload[i];
+		check_sum += (int)packet.payload[i];
 
 	return check_sum;
 }
@@ -321,6 +330,7 @@ int main()
 
 	terminate:
 	printf(" Simulator terminated at time %f\n after sending %d msgs from layer5\n", time, nsim);
+	printf(" %d successful ACKs were recieved from the reciever\n",successful_acks);
 	return 0;
 }
 
@@ -601,5 +611,11 @@ void tolayer5(int AorB, char datasent[20])
 			printf("%c", datasent[i]);
 		printf("\n");
 	}
+}
+
+
+void debug_print(const char* message) {
+	printf("[%f  ",time);
+	printf("%s",message);
 }
 		
