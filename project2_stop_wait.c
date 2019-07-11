@@ -615,7 +615,9 @@ void tolayer5(int AorB, char datasent[20])
 
 
 void debug_print(const char* message) {
-	printf("[%f  ",time);
-	printf("%s",message);
+	#if DEBUG
+		printf("[%f  ",time);
+		printf("%s",message);
+	#endif
 }
 		

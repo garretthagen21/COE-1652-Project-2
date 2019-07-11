@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define DEBUG 1
 #define BIDIRECTIONAL 0
 #define RTT_INCREMENT 30.0
 #define WIN_SIZE 50
